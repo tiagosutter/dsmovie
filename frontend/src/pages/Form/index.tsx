@@ -1,5 +1,4 @@
 import {useParams} from "react-router-dom";
-import {Movie} from "../../types/Movie";
 import FormCard from "../../components/FormCard";
 
 function Form() {
