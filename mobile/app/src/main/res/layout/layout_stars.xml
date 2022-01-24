@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:importantForAccessibility="no"
+        android:src="@drawable/star_empty"
         tools:src="@drawable/star_full" />
 
     <ImageView
@@ -19,6 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:importantForAccessibility="no"
+        android:src="@drawable/star_empty"
         tools:src="@drawable/star_full" />
 
     <ImageView
@@ -26,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:importantForAccessibility="no"
+        android:src="@drawable/star_empty"
         tools:src="@drawable/star_full" />
 
     <ImageView
@@ -33,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:importantForAccessibility="no"
+        android:src="@drawable/star_empty"
         tools:src="@drawable/star_half" />
 
     <ImageView
@@ -40,5 +44,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:importantForAccessibility="no"
+        android:src="@drawable/star_empty"
         tools:src="@drawable/star_empty" />
 </LinearLayout>

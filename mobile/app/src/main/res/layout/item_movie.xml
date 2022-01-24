@@ -17,7 +17,6 @@
             android:id="@+id/movieItemImageView"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:background="#A10606"
             android:scaleType="centerCrop"
             android:src="@drawable/temp_img_placeholder"
             app:layout_constraintEnd_toEndOf="parent"
@@ -28,17 +27,20 @@
             android:id="@+id/movieItemTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:textSize="16sp"
+            android:layout_marginEnd="8dp"
             android:fontFamily="@font/open_sans_bold"
+            android:textAlignment="center"
             android:textColor="@color/textColor"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movieItemImageView"
+            app:layout_constraintTop_toBottomOf="@id/movieItemImageView"
             tools:text="Título DoFilme" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/movieItemScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -47,7 +49,7 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movieItemTitle"
+            app:layout_constraintTop_toBottomOf="@id/movieItemTitle"
             tools:text="3.7" />
 
         <TextView
@@ -57,20 +59,21 @@
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@id/movieItemScore"
             tools:text="3 Avaliações" />
 
         <include
-            android:id="@+id/included"
+            android:id="@+id/movieItemStarsArea"
             layout="@layout/layout_stars"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movieItemRatingCount" />
+            app:layout_constraintTop_toBottomOf="@id/movieItemRatingCount" />
 
         <Button
+            android:id="@+id/movieItemRateButton"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -80,7 +83,7 @@
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/included" />
+            app:layout_constraintTop_toBottomOf="@id/movieItemStarsArea" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
