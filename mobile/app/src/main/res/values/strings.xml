@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">DSMovie</string>
-    <string name="avaliar">Avaliar</string>
+    <string name="rate">Avaliar</string>
+    <string name="save">Salvar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="inform_your_rating">Informe sua avaliação</string>
+    <string name="inform_your_email">Informe seu email</string>
+    <string name="movie_cover_image_description">Capa do filme</string>
 </resources>
