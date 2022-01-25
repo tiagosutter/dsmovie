@@ -1,5 +1,6 @@
 package com.tiagoexemplo.dsmovie
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -34,7 +35,9 @@ class MainActivity : AppCompatActivity(), MoviesAdapter.Interaction {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onRateClicked(item: Movie) {
-        TODO("Not yet implemented")
+    override fun onRateClicked(movie: Movie) {
+        val intent = Intent(this, RateMovieActivity::class.java)
+        intent.putExtra("movie", movie)
+        startActivity(intent)
     }
 }

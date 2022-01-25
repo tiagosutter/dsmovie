@@ -109,6 +109,6 @@ class MoviesAdapter(private val interaction: Interaction) :
     }
 
     interface Interaction {
-        fun onRateClicked(item: Movie)
+        fun onRateClicked(movie: Movie)
     }
 }

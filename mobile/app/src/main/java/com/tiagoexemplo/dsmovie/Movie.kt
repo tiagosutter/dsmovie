@@ -1,5 +1,7 @@
 package com.tiagoexemplo.dsmovie
 
+import java.io.Serializable
+
 
 data class Movie(
     val id: Long,
@@ -7,4 +9,4 @@ data class Movie(
     val score: Double,
     val count: Int,
     val image: String,
-)
+) : Serializable
