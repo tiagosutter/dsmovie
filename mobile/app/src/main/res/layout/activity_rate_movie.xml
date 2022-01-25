@@ -52,7 +52,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:fontFamily="sans-serif"
                     android:labelFor="@id/rateMovieEmailEditText"
                     android:text="@string/inform_your_email" />
@@ -61,17 +62,17 @@
                     android:id="@+id/rateMovieEmailEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginHorizontal="16dp"
                     android:autofillHints="emailAddress"
                     android:fontFamily="@font/open_sans"
                     android:inputType="textEmailAddress"
-                    android:paddingHorizontal="12dp"
                     tools:text="teste@emails.corp.com" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:fontFamily="sans-serif"
                     android:text="@string/inform_your_rating" />
 
@@ -79,11 +80,10 @@
                     android:id="@+id/rateMovieRatingEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginHorizontal="16dp"
                     android:fontFamily="@font/open_sans"
                     android:importantForAutofill="no"
                     android:inputType="number"
-                    android:paddingHorizontal="12dp"
                     tools:text="3" />
 
                 <Button
