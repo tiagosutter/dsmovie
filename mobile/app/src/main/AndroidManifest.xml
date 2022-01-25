@@ -13,6 +13,7 @@
         android:theme="@style/Theme.DSMovie">
         <activity
             android:name=".RateMovieActivity"
+            android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

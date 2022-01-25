@@ -24,5 +24,7 @@ class RateMovieActivity : AppCompatActivity() {
 
         rateMovieTitle.text = movie.title
         Glide.with(this).load(movie.image).into(rateMovieImageView)
+
+        rateMovieCancelButton.setOnClickListener { onBackPressed() }
     }
 }
