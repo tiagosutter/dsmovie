@@ -1,31 +1,64 @@
 package com.tiagoexemplo.dsmovie
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 
 class MainActivity : AppCompatActivity(), MoviesAdapter.Interaction {
 
+    private val TAG = "MainActivity"
+
     val moviesRecyclerView: RecyclerView by lazy { findViewById(R.id.moviesRecyclerView) }
+
+    private lateinit var moviesService: MoviesService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://dsmovie-tiago.herokuapp.com/")
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+
+        moviesService = retrofit.create(MoviesService::class.java)
+
+
         val moviesAdapter = MoviesAdapter(this)
         moviesRecyclerView.adapter = moviesAdapter
-        moviesAdapter.submitList(listOf(
-            Movie(1, "The Witcher", 1.0, 1, "https://www.themoviedb.org/t/p/w533_and_h300_bestv2/jBJWaqoSCiARWtfV0GlqHrcdidd.jpg"),
-            Movie(1, "Venom: Tempo de Carnificina", 1.3, 3, "https://www.themoviedb.org/t/p/w533_and_h300_bestv2/vIgyYkXkg6NC2whRbYjBD7eb3Er.jpg"),
-            Movie(1, "O Espetacular Homem-Aranha 2: A Ameaça de Electro", 2.0, 2, "https://www.themoviedb.org/t/p/w533_and_h300_bestv2/u7SeO6Y42P7VCTWLhpnL96cyOqd.jpg"),
-            Movie(1, "Matrix Resurrections", 2.3, 45, "https://www.themoviedb.org/t/p/w533_and_h300_bestv2/hv7o3VgfsairBoQFAawgaQ4cR1m.jpg"),
-            Movie(1, "Shang-Chi e a Lenda dos Dez Anéis", 3.0, 100, "https://www.themoviedb.org/t/p/w533_and_h300_bestv2/cinER0ESG0eJ49kXlExM0MEWGxW.jpg"),
-            Movie(1, "Django Livre", 3.3, 2469, "https://www.themoviedb.org/t/p/w533_and_h300_bestv2/2oZklIzUbvZXXzIFzv7Hi68d6xf.jpg"),
-            Movie(1, "Titanic", 4.0, 1, "https://www.themoviedb.org/t/p/w533_and_h300_bestv2/yDI6D5ZQh67YU4r2ms8qcSbAviZ.jpg"),
-            Movie(1, "O Lobo de Wall Street", 4.3, 30, "https://www.themoviedb.org/t/p/w533_and_h300_bestv2/cWUOv3H7YFwvKeaQhoAQTLLpo9Z.jpg"),
-            Movie(1, "Aves de Rapina: Arlequina e sua Emancipação Fantabulosa", 5.0, 67, "https://www.themoviedb.org/t/p/w533_and_h300_bestv2/jiqD14fg7UTZOT6qgvzTmfRYpWI.jpg"),
-        ))
+
+        val apiCalls = moviesService.getMovies()
+        apiCalls.enqueue(object : Callback<MoviesResponse> {
+            override fun onResponse(
+                call: Call<MoviesResponse>,
+                response: Response<MoviesResponse>
+            ) {
+                val responseBody = response.body()
+                val movies = responseBody?.content
+                if (movies != null) {
+                    moviesAdapter.submitList(movies)
+                }
+            }
+
+            override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
+                Log.e(TAG, "moviesService.getMovies", t)
+                showErrorToast()
+            }
+        })
+    }
+
+    private fun showErrorToast() {
+        Toast.makeText(this, "An error has occurred", Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
