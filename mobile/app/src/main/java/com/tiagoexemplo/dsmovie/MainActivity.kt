@@ -15,6 +15,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 class MainActivity : AppCompatActivity(), MoviesAdapter.Interaction {
 
+    private lateinit var moviesAdapter: MoviesAdapter
     private val TAG = "MainActivity"
 
     val moviesRecyclerView: RecyclerView by lazy { findViewById(R.id.moviesRecyclerView) }
@@ -34,11 +35,14 @@ class MainActivity : AppCompatActivity(), MoviesAdapter.Interaction {
         moviesService = retrofit.create(MoviesService::class.java)
 
 
-        val moviesAdapter = MoviesAdapter(this)
+        moviesAdapter = MoviesAdapter(this)
         moviesRecyclerView.adapter = moviesAdapter
+    }
 
-        val apiCalls = moviesService.getMovies()
-        apiCalls.enqueue(object : Callback<MoviesResponse> {
+    override fun onStart() {
+        super.onStart()
+        val apiCall = moviesService.getMovies()
+        apiCall.enqueue(object : Callback<MoviesResponse> {
             override fun onResponse(
                 call: Call<MoviesResponse>,
                 response: Response<MoviesResponse>
@@ -57,15 +61,15 @@ class MainActivity : AppCompatActivity(), MoviesAdapter.Interaction {
         })
     }
 
-    private fun showErrorToast() {
-        Toast.makeText(this, "An error has occurred", Toast.LENGTH_SHORT).show()
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
 
         menuInflater.inflate(R.menu.main, menu)
 
         return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun showErrorToast() {
+        Toast.makeText(this, "An error has occurred", Toast.LENGTH_SHORT).show()
     }
 
     override fun onRateClicked(movie: Movie) {
