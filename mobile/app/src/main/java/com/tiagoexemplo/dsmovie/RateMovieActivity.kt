@@ -2,7 +2,9 @@ package com.tiagoexemplo.dsmovie
 
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import retrofit2.Call
@@ -44,7 +46,27 @@ class RateMovieActivity : AppCompatActivity() {
 
         rateMovieSaveButton.setOnClickListener {
             val email = rateMovieEmailEditText.text.toString()
-            val rating = rateMovieRatingEditText.text.toString().toDouble()
+            val isValidEmail = Patterns.EMAIL_ADDRESS.matcher(email).matches()
+            if (email.isBlank() && !isValidEmail) {
+                AlertDialog.Builder(this)
+                    .setTitle("Erro de validação")
+                    .setMessage("Digite um email válido")
+                    .create()
+                    .show()
+                return@setOnClickListener
+            }
+
+            val ratingText = rateMovieRatingEditText.text.toString()
+            val rating = if (ratingText.isBlank()) 0.0 else ratingText.toDouble()
+            if (rating > 5 || rating == 0.0) {
+                AlertDialog.Builder(this)
+                    .setTitle("Erro de validação")
+                    .setMessage("O valor da nota deve ser entre 1 e 5")
+                    .create()
+                    .show()
+                return@setOnClickListener
+            }
+
             val score = Score(movie.id, email, rating)
             val saveRatingApiCall = moviesService.saveRating(score)
 
