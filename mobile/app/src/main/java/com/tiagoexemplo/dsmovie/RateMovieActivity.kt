@@ -72,8 +72,7 @@ class RateMovieActivity : AppCompatActivity() {
 
             saveRatingApiCall.enqueue(object : Callback<Movie> {
                 override fun onResponse(call: Call<Movie>, response: Response<Movie>) {
-                    finish()
-                    showSuccessToast()
+                    showSuccessMessage()
                 }
 
                 override fun onFailure(call: Call<Movie>, t: Throwable) {
@@ -84,8 +83,17 @@ class RateMovieActivity : AppCompatActivity() {
         }
     }
 
-    private fun showSuccessToast() {
-        Toast.makeText(this, "Rating saved", Toast.LENGTH_SHORT).show()
+    private fun showSuccessMessage() {
+        AlertDialog.Builder(this)
+            .setTitle("Salvo com sucesso")
+            .setMessage("A avaliação foi salva com sucesso")
+            .setCancelable(false)
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+                finish()
+            }
+            .create()
+            .show()
     }
 
     private fun showErrorToast() {
