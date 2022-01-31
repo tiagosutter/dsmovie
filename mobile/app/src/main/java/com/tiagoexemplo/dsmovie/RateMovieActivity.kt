@@ -51,7 +51,6 @@ class RateMovieActivity : AppCompatActivity() {
                 AlertDialog.Builder(this)
                     .setTitle("Erro de validação")
                     .setMessage("Digite um email válido")
-                    .create()
                     .show()
                 return@setOnClickListener
             }
@@ -62,7 +61,6 @@ class RateMovieActivity : AppCompatActivity() {
                 AlertDialog.Builder(this)
                     .setTitle("Erro de validação")
                     .setMessage("O valor da nota deve ser entre 1 e 5")
-                    .create()
                     .show()
                 return@setOnClickListener
             }
@@ -77,7 +75,7 @@ class RateMovieActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<Movie>, t: Throwable) {
                     Log.e(TAG, "moviesService.getMovies", t)
-                    showErrorToast()
+                    showErrorMessage()
                 }
             })
         }
@@ -92,12 +90,14 @@ class RateMovieActivity : AppCompatActivity() {
                 dialog.dismiss()
                 finish()
             }
-            .create()
             .show()
     }
 
-    private fun showErrorToast() {
+    private fun showErrorMessage() {
         Toast.makeText(this, "An error has occurred", Toast.LENGTH_SHORT).show()
+        AlertDialog.Builder(this)
+            .setTitle("Ocorreu um erro ao salvar")
+            .show()
     }
 
 }
