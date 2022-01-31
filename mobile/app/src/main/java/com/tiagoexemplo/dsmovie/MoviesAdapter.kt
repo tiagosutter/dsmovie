@@ -1,7 +1,6 @@
 package com.tiagoexemplo.dsmovie
 
 import android.annotation.SuppressLint
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +11,6 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 
 
 class MoviesAdapter(private val interaction: Interaction) :
@@ -104,11 +99,11 @@ class MoviesAdapter(private val interaction: Interaction) :
                 .load(movie.image)
                 .into(movieItemImageView)
 
-            movieItemRateButton.setOnClickListener { interaction.onRateClicked(movie) }
+            movieItemRateButton.setOnClickListener { interaction.onRateMovieClicked(movie) }
         }
     }
 
     interface Interaction {
-        fun onRateClicked(movie: Movie)
+        fun onRateMovieClicked(movie: Movie)
     }
 }

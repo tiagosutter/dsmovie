@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity(), MoviesAdapter.Interaction {
         Toast.makeText(this, "An error has occurred", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onRateClicked(movie: Movie) {
+    override fun onRateMovieClicked(movie: Movie) {
         val intent = Intent(this, RateMovieActivity::class.java)
         intent.putExtra("movie", movie)
         startActivity(intent)
