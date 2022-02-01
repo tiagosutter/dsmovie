@@ -19,6 +19,13 @@ class RateMovieActivity : AppCompatActivity() {
 
     private lateinit var moviesService: MoviesService
 
+    private val rateMovieImageView: ImageView by lazy { findViewById(R.id.rateMovieImageView) }
+    private val rateMovieTitle: TextView by lazy { findViewById(R.id.rateMovieTitle) }
+    private val rateMovieEmailEditText: EditText by lazy { findViewById(R.id.rateMovieEmailEditText) }
+    private val rateMovieRatingEditText: EditText by lazy { findViewById(R.id.rateMovieRatingEditText) }
+    private val rateMovieSaveButton: Button by lazy { findViewById(R.id.rateMovieSaveButton) }
+    private val rateMovieCancelButton: Button by lazy { findViewById(R.id.rateMovieCancelButton) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rate_movie)
@@ -32,13 +39,6 @@ class RateMovieActivity : AppCompatActivity() {
 
         val movie = intent.getSerializableExtra("movie") as Movie
 
-        val rateMovieImageView: ImageView = findViewById(R.id.rateMovieImageView)
-        val rateMovieTitle: TextView = findViewById(R.id.rateMovieTitle)
-        val rateMovieEmailEditText: EditText = findViewById(R.id.rateMovieEmailEditText)
-        val rateMovieRatingEditText: EditText = findViewById(R.id.rateMovieRatingEditText)
-        val rateMovieSaveButton: Button = findViewById(R.id.rateMovieSaveButton)
-        val rateMovieCancelButton: Button = findViewById(R.id.rateMovieCancelButton)
-
         rateMovieTitle.text = movie.title
         Glide.with(this).load(movie.image).into(rateMovieImageView)
 
@@ -46,6 +46,7 @@ class RateMovieActivity : AppCompatActivity() {
 
         rateMovieSaveButton.setOnClickListener {
             val email = rateMovieEmailEditText.text.toString()
+
             val isValidEmail = Patterns.EMAIL_ADDRESS.matcher(email).matches()
             if (email.isBlank() && !isValidEmail) {
                 AlertDialog.Builder(this)
