@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
@@ -41,6 +41,10 @@ class MainActivity : AppCompatActivity(), MoviesAdapter.Interaction {
 
     override fun onStart() {
         super.onStart()
+        getMovies()
+    }
+
+    private fun getMovies() {
         val apiCall = moviesService.getMovies()
         apiCall.enqueue(object : Callback<MoviesResponse> {
             override fun onResponse(
@@ -56,7 +60,7 @@ class MainActivity : AppCompatActivity(), MoviesAdapter.Interaction {
 
             override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
                 Log.e(TAG, "moviesService.getMovies", t)
-                showErrorToast()
+                showErrorDialog()
             }
         })
     }
@@ -68,8 +72,20 @@ class MainActivity : AppCompatActivity(), MoviesAdapter.Interaction {
         return super.onCreateOptionsMenu(menu)
     }
 
-    private fun showErrorToast() {
-        Toast.makeText(this, "An error has occurred", Toast.LENGTH_SHORT).show()
+    private fun showErrorDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Ocorreu um erro")
+            .setMessage("Ocorreu um erro de rede")
+            .setCancelable(false)
+            .setPositiveButton("Tentar novamente") { dialog, _ ->
+                getMovies()
+                dialog.dismiss()
+            }
+            .setNegativeButton("Sair") { dialog, _ ->
+                dialog.dismiss()
+                finish()
+            }
+            .show()
     }
 
     override fun onRateMovieClicked(movie: Movie) {
