@@ -98,6 +98,7 @@ class RateMovieActivity : AppCompatActivity() {
         Toast.makeText(this, "An error has occurred", Toast.LENGTH_SHORT).show()
         AlertDialog.Builder(this)
             .setTitle("Ocorreu um erro ao salvar")
+            .setMessage("Sem internet")
             .show()
     }
 
