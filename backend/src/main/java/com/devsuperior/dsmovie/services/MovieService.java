@@ -1,6 +1,7 @@
 package com.devsuperior.dsmovie.services;
 
 import com.devsuperior.dsmovie.dto.MovieDTO;
+import com.devsuperior.dsmovie.dto.MovieDetailsDTO;
 import com.devsuperior.dsmovie.entities.Movie;
 import com.devsuperior.dsmovie.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,9 @@ public class MovieService {
     }
 
     @Transactional(readOnly = true)
-    public MovieDTO findById(Long id) {
+    public MovieDetailsDTO findById(Long id) {
         Movie result = repository.findById(id).get() ;
-        MovieDTO movieDTO = new MovieDTO(result);
+        MovieDetailsDTO movieDTO = new MovieDetailsDTO(result);
         return movieDTO;
     }
 }

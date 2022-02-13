@@ -1,36 +1,34 @@
-package com.devsuperior.dsmovie.entities;
+package com.devsuperior.dsmovie.dto;
 
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import com.devsuperior.dsmovie.entities.Movie;
 
-@Entity
-@Table(name = "tb_movie")
-public class Movie {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class MovieDetailsDTO {
     private Long id;
     private String title;
     private Double score;
     private Integer count;
     private String image;
-    @Column(columnDefinition = "TEXT")
     private String description;
 
-    @OneToMany(mappedBy = "id.movie")
-    private Set<Score> scores = new HashSet<>();
-
-    public Movie() {
+    public MovieDetailsDTO() {
     }
 
-    public Movie(Long id, String title, Double score, Integer count, String image, String description) {
+    public MovieDetailsDTO(Long id, String title, Double score, Integer count, String image, String description) {
         this.id = id;
         this.title = title;
         this.score = score;
         this.count = count;
         this.image = image;
         this.description = description;
+    }
+
+    public MovieDetailsDTO(Movie movie) {
+        id = movie.getId();
+        title = movie.getTitle();
+        score = movie.getScore();
+        count = movie.getCount();
+        image = movie.getImage();
+        description = movie.getDescription();
     }
 
     public Long getId() {
@@ -71,10 +69,6 @@ public class Movie {
 
     public void setImage(String image) {
         this.image = image;
-    }
-
-    public Set<Score> getScores() {
-        return scores;
     }
 
     public String getDescription() {

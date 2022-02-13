@@ -1,6 +1,7 @@
 package com.devsuperior.dsmovie.controller;
 
 import com.devsuperior.dsmovie.dto.MovieDTO;
+import com.devsuperior.dsmovie.dto.MovieDetailsDTO;
 import com.devsuperior.dsmovie.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,7 +24,7 @@ public class MovieController {
     }
 
     @GetMapping(value = "/{id}")
-    public MovieDTO findById(@PathVariable Long id) {
+    public MovieDetailsDTO findById(@PathVariable Long id) {
         return service.findById(id);
     }
 }

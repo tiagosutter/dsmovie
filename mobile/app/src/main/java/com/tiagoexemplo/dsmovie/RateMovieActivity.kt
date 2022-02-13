@@ -49,20 +49,14 @@ class RateMovieActivity : AppCompatActivity() {
 
             val isValidEmail = Patterns.EMAIL_ADDRESS.matcher(email).matches()
             if (email.isBlank() && !isValidEmail) {
-                AlertDialog.Builder(this)
-                    .setTitle("Erro de validação")
-                    .setMessage("Digite um email válido")
-                    .show()
+                Toast.makeText(this, "Digite um email válido", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             val ratingText = rateMovieRatingEditText.text.toString()
             val rating = if (ratingText.isBlank()) 0.0 else ratingText.toDouble()
             if (rating > 5 || rating == 0.0) {
-                AlertDialog.Builder(this)
-                    .setTitle("Erro de validação")
-                    .setMessage("O valor da nota deve ser entre 1 e 5")
-                    .show()
+                Toast.makeText(this, "O valor da nota deve ser entre 1 e 5", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -83,23 +77,11 @@ class RateMovieActivity : AppCompatActivity() {
     }
 
     private fun showSuccessMessage() {
-        AlertDialog.Builder(this)
-            .setTitle("Salvo com sucesso")
-            .setMessage("A avaliação foi salva com sucesso")
-            .setCancelable(false)
-            .setPositiveButton("OK") { dialog, _ ->
-                dialog.dismiss()
-                finish()
-            }
-            .show()
+        Toast.makeText(this, "Salvo com sucesso", Toast.LENGTH_SHORT).show()
     }
 
     private fun showErrorMessage() {
-        Toast.makeText(this, "An error has occurred", Toast.LENGTH_SHORT).show()
-        AlertDialog.Builder(this)
-            .setTitle("Ocorreu um erro ao salvar")
-            .setMessage("Sem internet")
-            .show()
+        Toast.makeText(this, "Ocorreu um erro", Toast.LENGTH_SHORT).show()
     }
 
 }
