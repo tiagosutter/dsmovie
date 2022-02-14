@@ -49,11 +49,13 @@ class RateMovieActivity : AppCompatActivity() {
             override fun onResponse(call: Call<MovieDetails>, response: Response<MovieDetails>) {
                 val movieDetails = response.body()!!
                 movie = movieDetails
+                rateMovieMainCard.visibility = View.VISIBLE
                 bindMovieInfo(movieDetails)
             }
 
             override fun onFailure(call: Call<MovieDetails>, t: Throwable) {
                 rateMovieProgressBar.visibility = View.GONE
+                rateMovieMainCard.visibility = View.GONE
                 showErrorMessage()
             }
         })
