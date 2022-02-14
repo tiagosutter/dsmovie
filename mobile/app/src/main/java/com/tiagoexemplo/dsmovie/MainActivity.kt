@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
@@ -79,7 +78,7 @@ class MainActivity : AppCompatActivity(), MoviesAdapter.Interaction {
 
     override fun onRateMovieClicked(movie: Movie) {
         val intent = Intent(this, RateMovieActivity::class.java)
-        intent.putExtra("movie", movie)
+        intent.putExtra("movieId", movie.id)
         startActivity(intent)
     }
 }
