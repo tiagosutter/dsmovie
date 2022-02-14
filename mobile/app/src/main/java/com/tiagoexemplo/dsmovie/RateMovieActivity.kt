@@ -94,6 +94,7 @@ class RateMovieActivity : AppCompatActivity() {
         saveRatingApiCall.enqueue(object : Callback<Movie> {
             override fun onResponse(call: Call<Movie>, response: Response<Movie>) {
                 showSuccessMessage()
+                finish()
             }
 
             override fun onFailure(call: Call<Movie>, t: Throwable) {
