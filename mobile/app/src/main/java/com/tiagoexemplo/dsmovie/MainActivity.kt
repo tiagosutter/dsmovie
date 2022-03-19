@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +20,8 @@ class MainActivity : AppCompatActivity(), MoviesAdapter.Interaction {
     private lateinit var moviesAdapter: MoviesAdapter
     private val TAG = "MainActivity"
 
-    val moviesRecyclerView: RecyclerView by lazy { findViewById(R.id.moviesRecyclerView) }
+    private val moviesRecyclerView: RecyclerView by lazy { findViewById(R.id.moviesRecyclerView) }
+    private val moviesProgressIndicator: ProgressBar by lazy { findViewById(R.id.moviesProgressIndicator) }
 
     private lateinit var moviesService: MoviesService
 
@@ -45,6 +48,7 @@ class MainActivity : AppCompatActivity(), MoviesAdapter.Interaction {
     }
 
     private fun getMovies() {
+        showProgressIndicator()
         val apiCall = moviesService.getMovies()
         apiCall.enqueue(object : Callback<MoviesResponse> {
             override fun onResponse(
@@ -56,13 +60,23 @@ class MainActivity : AppCompatActivity(), MoviesAdapter.Interaction {
                 if (movies != null) {
                     moviesAdapter.submitList(movies)
                 }
+                hideProgressIndicator()
             }
 
             override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
                 Log.e(TAG, "moviesService.getMovies", t)
                 showErrorToast()
+                hideProgressIndicator()
             }
         })
+    }
+
+    private fun showProgressIndicator() {
+        moviesProgressIndicator.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressIndicator() {
+        moviesProgressIndicator.visibility = View.GONE
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -73,7 +87,7 @@ class MainActivity : AppCompatActivity(), MoviesAdapter.Interaction {
     }
 
     private fun showErrorToast() {
-        Toast.makeText(this, "Erro de rede", Toast.LENGTH_SHORT).show()
+        MeuDialogFragment.newInstance("Erro de rede").show(supportFragmentManager, null)
     }
 
     override fun onRateMovieClicked(movie: Movie) {
