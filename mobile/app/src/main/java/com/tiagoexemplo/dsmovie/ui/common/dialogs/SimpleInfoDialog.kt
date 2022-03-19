@@ -1,21 +1,22 @@
-package com.tiagoexemplo.dsmovie
+package com.tiagoexemplo.dsmovie.ui.common.dialogs
 
 
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import com.tiagoexemplo.dsmovie.R
 
-class MeuDialogFragment() : DialogFragment(R.layout.meu_dialog) {
+class SimpleInfoDialog() : DialogFragment(R.layout.meu_dialog) {
 
     companion object {
         const val MESSAGE = "message"
 
-        fun newInstance(message: String): MeuDialogFragment {
+        fun newInstance(message: String): SimpleInfoDialog {
             val args = Bundle()
             args.putString(MESSAGE, message)
 
-            val fragment = MeuDialogFragment()
+            val fragment = SimpleInfoDialog()
             fragment.arguments = args
             return fragment
         }

@@ -13,11 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DSMovie">
         <activity
-            android:name=".RateMovieActivity"
-            android:parentActivityName=".MainActivity"
+            android:name=".ui.movierating.RateMovieActivity"
+            android:parentActivityName=".ui.movielist.MovieListActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.movielist.MovieListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

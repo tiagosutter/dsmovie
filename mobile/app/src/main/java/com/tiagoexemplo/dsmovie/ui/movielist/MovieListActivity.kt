@@ -1,4 +1,4 @@
-package com.tiagoexemplo.dsmovie
+package com.tiagoexemplo.dsmovie.ui.movielist
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,16 +6,21 @@ import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.tiagoexemplo.dsmovie.*
+import com.tiagoexemplo.dsmovie.common.networking.MovieResponse
+import com.tiagoexemplo.dsmovie.common.networking.MoviesResponse
+import com.tiagoexemplo.dsmovie.common.networking.MoviesService
+import com.tiagoexemplo.dsmovie.ui.common.dialogs.SimpleInfoDialog
+import com.tiagoexemplo.dsmovie.ui.movierating.RateMovieActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-class MainActivity : AppCompatActivity(), MoviesAdapter.Interaction {
+class MovieListActivity : AppCompatActivity(), MoviesAdapter.Interaction {
 
     private lateinit var moviesAdapter: MoviesAdapter
     private val TAG = "MainActivity"
@@ -87,12 +92,12 @@ class MainActivity : AppCompatActivity(), MoviesAdapter.Interaction {
     }
 
     private fun showErrorToast() {
-        MeuDialogFragment.newInstance("Erro de rede").show(supportFragmentManager, null)
+        SimpleInfoDialog.newInstance("Erro de rede").show(supportFragmentManager, null)
     }
 
-    override fun onRateMovieClicked(movie: Movie) {
+    override fun onRateMovieClicked(movieResponse: MovieResponse) {
         val intent = Intent(this, RateMovieActivity::class.java)
-        intent.putExtra("movieId", movie.id)
+        intent.putExtra("movieId", movieResponse.id)
         startActivity(intent)
     }
 }

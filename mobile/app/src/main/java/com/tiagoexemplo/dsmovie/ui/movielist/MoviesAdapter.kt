@@ -1,4 +1,4 @@
-package com.tiagoexemplo.dsmovie
+package com.tiagoexemplo.dsmovie.ui.movielist
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -11,19 +11,21 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.tiagoexemplo.dsmovie.common.networking.MovieResponse
+import com.tiagoexemplo.dsmovie.R
 
 
 class MoviesAdapter(private val interaction: Interaction) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Movie>() {
+    private val diffCallback = object : DiffUtil.ItemCallback<MovieResponse>() {
 
-        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        override fun areItemsTheSame(oldItem: MovieResponse, newItem: MovieResponse): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        override fun areContentsTheSame(oldItem: MovieResponse, newItem: MovieResponse): Boolean {
             return oldItem == newItem
         }
 
@@ -55,7 +57,7 @@ class MoviesAdapter(private val interaction: Interaction) :
         return differ.currentList.size
     }
 
-    fun submitList(list: List<Movie>) {
+    fun submitList(list: List<MovieResponse>) {
         differ.submitList(list)
     }
 
@@ -79,13 +81,13 @@ class MoviesAdapter(private val interaction: Interaction) :
 
         // TODO: Deal with I18n
         @SuppressLint("SetTextI18n")
-        fun bind(movie: Movie) {
-            movieItemTitle.text = movie.title
-            movieItemScore.text = "%.2f".format(movie.score)
-            movieItemRatingCount.text = "${movie.count} Avaliações"
+        fun bind(movieResponse: MovieResponse) {
+            movieItemTitle.text = movieResponse.title
+            movieItemScore.text = "%.2f".format(movieResponse.score)
+            movieItemRatingCount.text = "${movieResponse.count} Avaliações"
 
-            val scoreIntPart = movie.score.toInt()
-            val scoreDecimalPart = movie.score - scoreIntPart
+            val scoreIntPart = movieResponse.score.toInt()
+            val scoreDecimalPart = movieResponse.score - scoreIntPart
 
             for (i in 0 until scoreIntPart) {
                 startViews[i].setImageResource(R.drawable.star_full)
@@ -96,14 +98,14 @@ class MoviesAdapter(private val interaction: Interaction) :
             }
 
             Glide.with(itemView)
-                .load(movie.image)
+                .load(movieResponse.image)
                 .into(movieItemImageView)
 
-            movieItemRateButton.setOnClickListener { interaction.onRateMovieClicked(movie) }
+            movieItemRateButton.setOnClickListener { interaction.onRateMovieClicked(movieResponse) }
         }
     }
 
     interface Interaction {
-        fun onRateMovieClicked(movie: Movie)
+        fun onRateMovieClicked(movieResponse: MovieResponse)
     }
 }

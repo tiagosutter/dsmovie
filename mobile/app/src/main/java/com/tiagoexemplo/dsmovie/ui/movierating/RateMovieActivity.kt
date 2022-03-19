@@ -1,4 +1,4 @@
-package com.tiagoexemplo.dsmovie
+package com.tiagoexemplo.dsmovie.ui.movierating
 
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +8,11 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.bumptech.glide.Glide
+import com.tiagoexemplo.dsmovie.*
+import com.tiagoexemplo.dsmovie.common.networking.MovieDetailsResponse
+import com.tiagoexemplo.dsmovie.common.networking.MovieResponse
+import com.tiagoexemplo.dsmovie.common.networking.MoviesService
+import com.tiagoexemplo.dsmovie.common.networking.ScoreRequest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,7 +24,7 @@ class RateMovieActivity : AppCompatActivity() {
     private val TAG = "RateMovieActivity"
 
     private lateinit var moviesService: MoviesService
-    private lateinit var movie: MovieDetails
+    private lateinit var movieResponse: MovieDetailsResponse
 
     private val rateMovieImageView: ImageView by lazy { findViewById(R.id.rateMovieImageView) }
     private val rateMovieTitle: TextView by lazy { findViewById(R.id.rateMovieTitle) }
@@ -45,15 +50,15 @@ class RateMovieActivity : AppCompatActivity() {
 
         val movieCall = moviesService.getMovie(movieId)
         rateMovieProgressBar.visibility = View.VISIBLE
-        movieCall.enqueue(object : Callback<MovieDetails> {
-            override fun onResponse(call: Call<MovieDetails>, response: Response<MovieDetails>) {
+        movieCall.enqueue(object : Callback<MovieDetailsResponse> {
+            override fun onResponse(call: Call<MovieDetailsResponse>, response: Response<MovieDetailsResponse>) {
                 val movieDetails = response.body()!!
-                movie = movieDetails
+                movieResponse = movieDetails
                 rateMovieMainCard.visibility = View.VISIBLE
                 bindMovieInfo(movieDetails)
             }
 
-            override fun onFailure(call: Call<MovieDetails>, t: Throwable) {
+            override fun onFailure(call: Call<MovieDetailsResponse>, t: Throwable) {
                 rateMovieProgressBar.visibility = View.GONE
                 rateMovieMainCard.visibility = View.GONE
                 showErrorMessage()
@@ -67,9 +72,9 @@ class RateMovieActivity : AppCompatActivity() {
         }
     }
 
-    private fun bindMovieInfo(movie: MovieDetails) {
-        rateMovieTitle.text = movie.title
-        Glide.with(this).load(movie.image).into(rateMovieImageView)
+    private fun bindMovieInfo(movieResponse: MovieDetailsResponse) {
+        rateMovieTitle.text = movieResponse.title
+        Glide.with(this).load(movieResponse.image).into(rateMovieImageView)
     }
 
     private fun saveRating() {
@@ -88,16 +93,16 @@ class RateMovieActivity : AppCompatActivity() {
             return
         }
 
-        val score = Score(movie.id, email, rating)
+        val score = ScoreRequest(movieResponse.id, email, rating)
         val saveRatingApiCall = moviesService.saveRating(score)
 
-        saveRatingApiCall.enqueue(object : Callback<Movie> {
-            override fun onResponse(call: Call<Movie>, response: Response<Movie>) {
+        saveRatingApiCall.enqueue(object : Callback<MovieResponse> {
+            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
                 showSuccessMessage()
                 finish()
             }
 
-            override fun onFailure(call: Call<Movie>, t: Throwable) {
+            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
                 Log.e(TAG, "moviesService.getMovies", t)
                 showErrorMessage()
             }

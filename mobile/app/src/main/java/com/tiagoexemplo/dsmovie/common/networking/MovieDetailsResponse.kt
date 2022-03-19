@@ -1,9 +1,7 @@
-package com.tiagoexemplo.dsmovie
-
-import java.io.Serializable
+package com.tiagoexemplo.dsmovie.common.networking
 
 
-data class MovieDetails(
+data class MovieDetailsResponse(
     val id: Long,
     val title: String,
     val score: Double,
