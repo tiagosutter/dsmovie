@@ -14,12 +14,15 @@ import com.tiagoexemplo.dsmovie.common.networking.MoviesResponse
 import com.tiagoexemplo.dsmovie.common.networking.MoviesService
 import com.tiagoexemplo.dsmovie.ui.common.dialogs.SimpleInfoDialog
 import com.tiagoexemplo.dsmovie.ui.movierating.RateMovieActivity
+import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MovieListActivity : AppCompatActivity(), MoviesAdapter.Interaction {
 
     private lateinit var moviesAdapter: MoviesAdapter
@@ -28,20 +31,12 @@ class MovieListActivity : AppCompatActivity(), MoviesAdapter.Interaction {
     private val moviesRecyclerView: RecyclerView by lazy { findViewById(R.id.moviesRecyclerView) }
     private val moviesProgressIndicator: ProgressBar by lazy { findViewById(R.id.moviesProgressIndicator) }
 
-    private lateinit var moviesService: MoviesService
+    @Inject
+    lateinit var moviesService: MoviesService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://dsmovie-tiago.herokuapp.com/")
-            .addConverterFactory(MoshiConverterFactory.create())
-            .build()
-
-        moviesService = retrofit.create(MoviesService::class.java)
-
 
         moviesAdapter = MoviesAdapter(this)
         moviesRecyclerView.adapter = moviesAdapter

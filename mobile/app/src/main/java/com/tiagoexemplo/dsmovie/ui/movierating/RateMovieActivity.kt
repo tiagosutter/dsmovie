@@ -13,17 +13,21 @@ import com.tiagoexemplo.dsmovie.common.networking.MovieDetailsResponse
 import com.tiagoexemplo.dsmovie.common.networking.MovieResponse
 import com.tiagoexemplo.dsmovie.common.networking.MoviesService
 import com.tiagoexemplo.dsmovie.common.networking.ScoreRequest
+import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class RateMovieActivity : AppCompatActivity() {
 
     private val TAG = "RateMovieActivity"
 
-    private lateinit var moviesService: MoviesService
+    @Inject
+    lateinit var moviesService: MoviesService
     private lateinit var movieResponse: MovieDetailsResponse
 
     private val rateMovieImageView: ImageView by lazy { findViewById(R.id.rateMovieImageView) }
@@ -38,13 +42,6 @@ class RateMovieActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rate_movie)
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://dsmovie-tiago.herokuapp.com/")
-            .addConverterFactory(MoshiConverterFactory.create())
-            .build()
-
-        moviesService = retrofit.create(MoviesService::class.java)
 
         val movieId = intent.getLongExtra("movieId", 0L)
 
