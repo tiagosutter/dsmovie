@@ -106,6 +106,7 @@ class GetMoviesUseCaseTest {
     @Test
     fun getMovies_success_unregisteredListenersNotInteractedWith() {
         // Arrange
+        SUT.registerListener(listener1)
         SUT.unregisterListener(listener1)
         SUT.unregisterListener(listener2)
 
@@ -113,7 +114,6 @@ class GetMoviesUseCaseTest {
         SUT.getMovies()
 
         // Assert
-        verifyNoInteractions(listener1)
         verifyNoInteractions(listener2)
     }
 
@@ -121,6 +121,7 @@ class GetMoviesUseCaseTest {
     fun getMovies_error_unregisteredListenersNotInteractedWith() {
         // Arrange
         setupForError()
+        SUT.registerListener(listener1)
         SUT.unregisterListener(listener1)
         SUT.unregisterListener(listener2)
 
@@ -128,7 +129,6 @@ class GetMoviesUseCaseTest {
         SUT.getMovies()
 
         // Assert
-        verifyNoInteractions(listener1)
         verifyNoInteractions(listener2)
     }
 
