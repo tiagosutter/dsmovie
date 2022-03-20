@@ -1,7 +1,5 @@
 package com.tiagoexemplo.dsmovie.common.networking
 
-import java.io.Serializable
-
 
 data class MovieResponse(
     val id: Long,
