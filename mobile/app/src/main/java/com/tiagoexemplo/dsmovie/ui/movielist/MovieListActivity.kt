@@ -2,37 +2,27 @@ package com.tiagoexemplo.dsmovie.ui.movielist
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.ProgressBar
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.tiagoexemplo.dsmovie.*
-import com.tiagoexemplo.dsmovie.common.networking.MovieResponse
-import com.tiagoexemplo.dsmovie.common.networking.MoviesResponse
-import com.tiagoexemplo.dsmovie.common.networking.MoviesService
+import com.tiagoexemplo.dsmovie.R
+import com.tiagoexemplo.dsmovie.movielist.Movie
 import com.tiagoexemplo.dsmovie.ui.common.dialogs.SimpleInfoDialog
 import com.tiagoexemplo.dsmovie.ui.movierating.RateMovieActivity
 import dagger.hilt.android.AndroidEntryPoint
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MovieListActivity : AppCompatActivity(), MoviesAdapter.Interaction {
 
     private lateinit var moviesAdapter: MoviesAdapter
-    private val TAG = "MainActivity"
 
     private val moviesRecyclerView: RecyclerView by lazy { findViewById(R.id.moviesRecyclerView) }
     private val moviesProgressIndicator: ProgressBar by lazy { findViewById(R.id.moviesProgressIndicator) }
 
-    @Inject
-    lateinit var moviesService: MoviesService
+    private val viewModel: MovieListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,31 +34,15 @@ class MovieListActivity : AppCompatActivity(), MoviesAdapter.Interaction {
 
     override fun onStart() {
         super.onStart()
-        getMovies()
-    }
+        viewModel.moviesLiveData.observe(this) { movies ->
+            moviesAdapter.submitList(movies)
+        }
 
-    private fun getMovies() {
-        showProgressIndicator()
-        val apiCall = moviesService.getMovies()
-        apiCall.enqueue(object : Callback<MoviesResponse> {
-            override fun onResponse(
-                call: Call<MoviesResponse>,
-                response: Response<MoviesResponse>
-            ) {
-                val responseBody = response.body()
-                val movies = responseBody?.content
-                if (movies != null) {
-                    moviesAdapter.submitList(movies)
-                }
-                hideProgressIndicator()
-            }
-
-            override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
-                Log.e(TAG, "moviesService.getMovies", t)
+        viewModel.somethingWentWrongLiveData.observe(this) {
+            if (it) {
                 showErrorToast()
-                hideProgressIndicator()
             }
-        })
+        }
     }
 
     private fun showProgressIndicator() {
@@ -90,9 +64,9 @@ class MovieListActivity : AppCompatActivity(), MoviesAdapter.Interaction {
         SimpleInfoDialog.newInstance("Erro de rede").show(supportFragmentManager, null)
     }
 
-    override fun onRateMovieClicked(movieResponse: MovieResponse) {
+    override fun onRateMovieClicked(movie: Movie) {
         val intent = Intent(this, RateMovieActivity::class.java)
-        intent.putExtra("movieId", movieResponse.id)
+        intent.putExtra("movieId", movie.id)
         startActivity(intent)
     }
 }
